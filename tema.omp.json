@@ -66,11 +66,14 @@
                     "leading_diamond": "",
                     "trailing_diamond": "",
                     "properties": {
+                        "fetch_status": true,
+                        "fetch_stash_count": true,
+                        "fetch_upstream_icon": true,
                         "display_stash_count": true,
                         "display_upstream_icon": true,
-                        "local_working_icon": " 📝",
+                        "local_working_icon": " 📝 ",
                         "local_staged_icon": " ✅",
-                        "stash_count_icon": "💾 "
+                        "stash_count_icon": " 💾 "
                     }
                 },
                 {

@@ -7,10 +7,13 @@ Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler –Key DownArrow -Function HistorySearchForward
 
 Import-Module "$localModulesDir/posh-alias"
-Import-Module "$localModulesDir/posh-git/src/posh-git.psd1"
 
 if (-Not (Get-Module -ListAvailable -Name oh-my-posh)) {
     Install-Module oh-my-posh -Scope CurrentUser -AllowPrerelease -Force
+}
+
+if (-Not (Get-Module -ListAvailable -Name posh-git)) {
+    Install-Module posh-git -Scope CurrentUser -AllowPrerelease -Force
 }
 
 Import-Module oh-my-posh
