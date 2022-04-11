@@ -1,6 +1,3 @@
-[submodule "posh-git"]
-	path = Modules/posh-git
-	url = https://github.com/dahlbyk/posh-git
 [submodule "posh-alias"]
 	path = Modules/posh-alias
 	url = https://github.com/giggio/posh-alias
