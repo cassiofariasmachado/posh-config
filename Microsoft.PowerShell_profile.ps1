@@ -17,6 +17,6 @@ if (-Not (Get-Module -ListAvailable -Name posh-git)) {
 }
 
 Import-Module oh-my-posh
-Set-PoshPrompt -Theme "$root/tema.omp.json"
+Set-PoshPrompt -Theme "$localModulesDir/omp-themes/default.omp.json"
 
 . "$root/CreateAliases.ps1"
