@@ -13,9 +13,10 @@ git clone --recursive https://github.com/cassiofariasmachado/posh-config.git
 # Acessar a pasta do repo
 cd posh-config
 
-# Copiar configurações para pasta do Powershell
-cp -Force -Recurse * $env:UserProfile\Documents\PowerShell
+# Realizar instalação de pacotes necessários
+./Install.ps1
 ```
+
 ## Referências
 
 Baseado nas configurações das feras abaixo:

@@ -1,22 +1,25 @@
 $root = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 $localModulesDir = Join-Path $root Modules
 
+Import-Module "$localModulesDir/posh-alias"
 Import-Module PSReadline
+Import-Module posh-git
+Import-Module posh-dotnet
+Import-Module DockerCompletion
+Import-Module PSKubectlCompletion
 
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadlineKeyHandler –Key DownArrow -Function HistorySearchForward
+Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-Import-Module "$localModulesDir/posh-alias"
+oh-my-posh init pwsh --config "$localModulesDir/omp-themes/default.omp.json" | Invoke-Expression
 
-if (-Not (Get-Module -ListAvailable -Name oh-my-posh)) {
-    Install-Module oh-my-posh -Scope CurrentUser -AllowPrerelease -Force
+$env:POSH_GIT_ENABLED = $true
+
+Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+    dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
 }
-
-if (-Not (Get-Module -ListAvailable -Name posh-git)) {
-    Install-Module posh-git -Scope CurrentUser -AllowPrerelease -Force
-}
-
-Import-Module oh-my-posh
-Set-PoshPrompt -Theme "$localModulesDir/omp-themes/default.omp.json"
 
 . "$root/CreateAliases.ps1"
