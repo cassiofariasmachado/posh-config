@@ -32,9 +32,9 @@ Libera e renova o endereço IPv4 da interface de rede.
 A função RestartNetwork libera o endereço IPv4 atual e solicita um novo endereço.
 
 .EXAMPLE
-RestartNetwork
+Restart-Network
 #>
-function RestartNetwork {
+function Restart-Network {
     Write-Host "⛓️‍💥 liberando endereço IPv4"
     ipconfig /release | Out-Null
 
@@ -44,18 +44,81 @@ function RestartNetwork {
 
 <#
 .SYNOPSIS
-    Reinicia a conexão de rede para IPv6.
+Reinicia a conexão de rede para IPv6.
 
 .DESCRIPTION
-    A função RestartNetwork libera o endereço IPv6 atual e solicita um novo endereço.
+A função RestartNetwork libera o endereço IPv6 atual e solicita um novo endereço.
 
 .EXAMPLE
-    RestartNetwork6
+Restart-Network6
 #>
-function RestartNetwork6 {
+function Restart-Network6 {
     Write-Host "⛓️‍💥 liberando endereço IPv6"
     ipconfig /release6 | Out-Null
 
     Write-Host "🌍 renovando endereço IPv6"
     ipconfig /renew6 | Out-Null
+}
+
+<#
+.SYNOPSIS
+Converte um único caractere em seu código Unicode no formato \uXXXX.
+
+.DESCRIPTION
+A função Get-UnicodeEscape recebe um caractere e retorna seu código Unicode
+no formato de escape hexadecimal (\uXXXX).
+
+.PARAMETER Character
+O caractere que será convertido para o formato Unicode.
+
+.EXAMPLE
+Get-UnicodeEscape -Character ''
+#>
+function Get-UnicodeEscape {
+    param (
+        [Parameter(Mandatory = $true)]
+        [char]$Character
+    )
+
+    return '\u' + ('{0:X4}' -f [int]$Character).ToLowerInvariant()
+}
+
+<#
+.SYNOPSIS
+Converte uma string inteira em uma sequência de códigos Unicode no formato \uXXXX.
+
+.DESCRIPTION
+A função Get-UnicodeEscapes percorre todos os caracteres de uma string e converte cada um para seu código Unicode no formato \uXXXX.
+
+.PARAMETER Text
+A string que será convertida para códigos Unicode.
+
+.EXAMPLE
+Get-UnicodeEscapes -Text '🚀PowerShell'
+#>
+function Get-UnicodeEscapes {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Text
+    )
+
+    return ($Text.ToCharArray() | ForEach-Object { Get-UnicodeEscape -Character $_ }) -join ' '
+}
+
+<#
+.SYNOPSIS
+Atualiza todos os pacotes instalados via Winget.
+
+.DESCRIPTION
+A função Update-WingetPackages executa o comando `winget upgrade --all`, 
+atualizando todos os pacotes disponíveis no sistema. 
+
+Ela aceita automaticamente os termos dos pacotes e das fontes, incluindo também a 
+atualização de pacotes desconhecidos.
+
+.EXAMPLE
+Update-WingetPackages
+#>
+function Update-WingetPackages {
+    winget upgrade --all --accept-package-agreements --accept-source-agreements --include-unknown
 }
