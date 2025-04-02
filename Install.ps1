@@ -19,18 +19,17 @@ param (
 if (-not $SkipInstallPackages) {
     $wingetPackages = @(
         ("Microsoft.WindowsTerminal", "winget"),
-        ("Microsoft.PowerShell", "winget"),
         ("JanDeDobbeleer.OhMyPosh", "winget"),
         ("bat", "winget"),
         ("Microsoft.PowerToys", "winget"),
         ("GnuPG.Gpg4win", "winget")
-        ("Git.Git", "winget"),
         ("Microsoft.VisualStudioCode", "winget"),
         ("Docker.DockerDesktop", "winget"),
         ("Microsoft.DotNet.SDK.9", "winget"),
         ("Microsoft.DotNet.DesktopRuntime.9", "winget"),
         ("Microsoft.DotNet.AspNetCore.9", "winget"),
-        ("JetBrains.Toolbox", "winget")
+        ("JetBrains.Toolbox", "winget"),
+        ("7zip.7zip", "winget")
     )
 
     foreach ($package in $wingetPackages) {

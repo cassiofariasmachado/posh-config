@@ -4,6 +4,20 @@ Este repositório contém a configuração que normalmente uso no Powershell.
 
 ## Instalação
 
+### Pré requisitos
+
+1. Instalação do Git:
+
+    ```powershell
+    winget install --id Git.Git
+    ```
+
+2. Instalação do Powershell Core:
+
+    ```powershell
+    winget install --id Microsoft.PowerShell
+    ```
+
 Para instalar, execute:
 
 ```powershell
