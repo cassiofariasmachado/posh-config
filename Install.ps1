@@ -21,6 +21,7 @@ if (-not $SkipInstallPackages) {
         ("Microsoft.WindowsTerminal", "winget"),
         ("JanDeDobbeleer.OhMyPosh", "winget"),
         ("bat", "winget"),
+        ("dandavison.delta", "winget"),
         ("Microsoft.PowerToys", "winget"),
         ("GnuPG.Gpg4win", "winget")
         ("Microsoft.VisualStudioCode", "winget"),
