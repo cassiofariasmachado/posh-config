@@ -34,7 +34,7 @@ if (-not $SkipInstallPackages) {
     )
 
     foreach ($package in $wingetPackages) {
-        Write-Host "✅ Instalando ""$($package[0])"" da origem ""$($package[1])"""
+        Write-Host "✅ instalando ""$($package[0])"" da origem ""$($package[1])"""
         winget install --id $package[0] --source $package[1] --accept-package-agreements 
     }
 
@@ -46,19 +46,19 @@ if (-not $SkipInstallPackages) {
         "PSKubectlCompletion"
     )
 
-    Write-Host "🔐 Confiando no repositório PSGallery"
+    Write-Host "🔐 confiando no repositório PSGallery"
     Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
 
     foreach ($module in $modules) {
-        Write-Host "✅ Instalando módulo ""$module"""
+        Write-Host "✅ instalando módulo ""$module"""
         Install-Module $module -Scope CurrentUser -AcceptLicense
     }
 
-    Write-Host "⚙️ Instalando módulos de autocompletar"
+    Write-Host "⚙️ instalando módulos de autocompletar"
     Install-TabCompletion
 }
 else {
-    Write-Host "⏭️ Instalação de pacotes e módulos pulada devido ao parâmetro --skipInstallPackages"
+    Write-Host "⏭️ skipando a instalação de pacotes e módulos devido ao parâmetro --SkipInstallPackages"
 }
 
 Write-Host "🚀 copiando configurações para pasta do Powershell"

@@ -122,3 +122,71 @@ Update-WingetPackages
 function Update-WingetPackages {
     winget upgrade --all --accept-package-agreements --accept-source-agreements --include-unknown
 }
+
+<#
+.SYNOPSIS
+Remove diretórios de build comuns com segurança.
+
+.DESCRIPTION
+Esta função procura recursivamente por pastas de build (`node_modules`, `bin`, `obj`) em um diretório raiz especificado. 
+Somente remove essas pastas se no mesmo nível houver arquivos que justifiquem sua presença:
+
+- `node_modules`: somente se houver um `package.json` no mesmo diretório.
+- `bin` e `obj`: somente se houver um arquivo `.csproj` no mesmo diretório.
+
+Você pode usar o parâmetro `-WhatIf` para simular a limpeza sem excluir nada.
+
+.PARAMETER RootPath
+O caminho raiz onde a busca e limpeza devem ser iniciadas. O padrão é o diretório atual (`.`).
+
+.PARAMETER WhatIf
+Simula a remoção das pastas sem realmente apagá-las. Útil para verificar o que será removido.
+
+.EXAMPLE
+Clear-BuildAssets -RootPath "."
+Clear-BuildAssets -RootPath "." -WhatIf
+#>
+function Clear-BuildAssets {
+    param (
+        [string]$RootPath = ".",
+        [switch]$WhatIf
+    )
+
+    $targetFolders = @("node_modules", "bin", "obj")
+
+    Get-ChildItem -Path $RootPath -Recurse -Directory |
+        Where-Object { $targetFolders -contains $_.Name } |
+        ForEach-Object {
+            $parent = $_.Parent.FullName
+            $folder = $_.Name
+
+            $shouldDelete = $false
+
+            switch ($folder) {
+                "node_modules" {
+                    if (Test-Path -Path (Join-Path $parent "package.json")) {
+                        $shouldDelete = $true
+                    }
+                }
+                "bin" {
+                    if ((Get-ChildItem -Path $parent -Filter *.csproj -File | Measure-Object).Count -gt 0) {
+                        $shouldDelete = $true
+                    }
+                }
+                "obj" {
+                    if ((Get-ChildItem -Path $parent -Filter *.csproj -File | Measure-Object).Count -gt 0) {
+                        $shouldDelete = $true
+                    }
+                }
+            }
+
+            if ($shouldDelete) {
+                if ($WhatIf) {
+                    Write-Host "⏳ deletaria: $($_.FullName)"
+                } else {
+                    Write-Host "🔥 deletando: $($_.FullName)"
+                    Remove-Item -Path $_.FullName -Recurse -Force
+                }
+            }
+        }
+}
