@@ -30,7 +30,8 @@ if (-not $SkipInstallPackages) {
         ("Microsoft.DotNet.DesktopRuntime.9", "winget"),
         ("Microsoft.DotNet.AspNetCore.9", "winget"),
         ("JetBrains.Toolbox", "winget"),
-        ("7zip.7zip", "winget")
+        ("7zip.7zip", "winget"),
+        ("Neovim.Neovim", "winget")
     )
 
     foreach ($package in $wingetPackages) {
