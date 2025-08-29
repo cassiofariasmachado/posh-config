@@ -1,39 +1,48 @@
-# 🚀 Configuração do Powershell
+# 🚀 PowerShell Configuration
 
-Este repositório contém a configuração que normalmente uso no Powershell.
+This repository contains the configuration I usually use in PowerShell.
 
-## Instalação
+## Prerequisites
 
-### Pré requisitos
+Before installation, install the prerequisites:
 
-1. Instalação do Git:
+1. Install Git:
 
     ```powershell
     winget install --id Git.Git
     ```
 
-2. Instalação do Powershell Core:
+2. Install PowerShell Core:
 
     ```powershell
     winget install --id Microsoft.PowerShell
     ```
 
-Para instalar, execute:
+## Installation
 
-```powershell
-# Clonar repo com os submodulos do git
-git clone --recursive https://github.com/cassiofariasmachado/posh-config.git
+To install:
 
-# Acessar a pasta do repo
-cd posh-config
+1. Clone repo with `git submodules`:
 
-# Realizar instalação de pacotes necessários
-./Install.ps1
-```
+    ```powershell
+    git clone --recursive https://github.com/cassiofariasmachado/posh-config.git
+    ```
 
-## Referências
+2. Go to the repo folder:
+    ```powershell
+    cd posh-config
+    ```
 
-Baseado nas configurações das feras abaixo:
+3. Install required packages:
 
-- [Posh files](https://github.com/jfbueno/posh-files.git) do [Jeferson Bueno](https://github.com/jfbueno)
-- [Posh files](https://github.com/giggio/poshfiles) do [Giovanni Bassi](https://github.com/giggio)
+    ```powershell
+    ./Install.ps1
+    ```
+
+4. Configure dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
+
+## References
+
+- Inspired by the configurations from the folks below:
+  - [posh-files](https://github.com/jfbueno/posh-files.git) by [Jeferson Bueno](https://github.com/jfbueno)
+  - [poshfiles](https://github.com/giggio/poshfiles) by [Giovanni Bassi](https://github.com/giggio)

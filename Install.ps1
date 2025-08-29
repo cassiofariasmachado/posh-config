@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
-    Script utilitário de instalação dos pacotes que utilizo no dia a dia.
+    Utility script for installing the packages I use daily.
 
 .DESCRIPTION
-    Script utilitário de instalação dos pacotes que utilizo no dia a dia.
+    Utility script for installing the packages I use daily.
 
 .PARAMETER SkipInstallPackages
-Se informado, pula a instalação dos pacotes e realiza apenas a cópia das configurações do Powershell.
+If specified, skips package installation and only copies the PowerShell configurations.
 
 .EXAMPLE
     .\Install.ps1
@@ -23,7 +23,7 @@ if (-not $SkipInstallPackages) {
         ("bat", "winget"),
         ("dandavison.delta", "winget"),
         ("Microsoft.PowerToys", "winget"),
-        ("GnuPG.Gpg4win", "winget")
+        ("GnuPG.Gpg4win", "winget"),
         ("Microsoft.VisualStudioCode", "winget"),
         ("Docker.DockerDesktop", "winget"),
         ("Microsoft.DotNet.SDK.9", "winget"),
@@ -35,7 +35,7 @@ if (-not $SkipInstallPackages) {
     )
 
     foreach ($package in $wingetPackages) {
-        Write-Host "✅ instalando ""$($package[0])"" da origem ""$($package[1])"""
+        Write-Host "✅ installing ""$($package[0])"" from source ""$($package[1])"""
         winget install --id $package[0] --source $package[1] --accept-package-agreements 
     }
 
@@ -47,20 +47,20 @@ if (-not $SkipInstallPackages) {
         "PSKubectlCompletion"
     )
 
-    Write-Host "🔐 confiando no repositório PSGallery"
+    Write-Host "🔐 trusting PSGallery repository"
     Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
 
     foreach ($module in $modules) {
-        Write-Host "✅ instalando módulo ""$module"""
+        Write-Host "✅ installing module ""$module"""
         Install-Module $module -Scope CurrentUser -AcceptLicense
     }
 
-    Write-Host "⚙️ instalando módulos de autocompletar"
+    Write-Host "⚙️ installing tab completion modules"
     Install-TabCompletion
 }
 else {
-    Write-Host "⏭️ skipando a instalação de pacotes e módulos devido ao parâmetro --SkipInstallPackages"
+    Write-Host "⏭️ skipping package and module installation due to --SkipInstallPackages parameter"
 }
 
-Write-Host "🚀 copiando configurações para pasta do Powershell"
+Write-Host "🚀 copying configurations to PowerShell folder"
 Copy-Item -Force -Recurse * $env:UserProfile\Documents\PowerShell

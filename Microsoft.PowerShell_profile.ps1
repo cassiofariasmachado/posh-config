@@ -11,8 +11,6 @@ Import-Module PSKubectlCompletion
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-oh-my-posh init pwsh --config "$localModulesDir/omp-themes/default.omp.json" | Invoke-Expression
-
 $env:POSH_GIT_ENABLED = $true
 
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
@@ -23,3 +21,6 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 }
 
 . "$root/CreateAliases.ps1"
+. "$root/CreateFunctions.ps1"
+
+oh-my-posh init pwsh --config "$localModulesDir/omp-themes/default.omp.json" | Invoke-Expression
