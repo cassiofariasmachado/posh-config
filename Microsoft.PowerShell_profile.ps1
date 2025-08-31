@@ -36,4 +36,4 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 
 $env:POSH_GIT_ENABLED = $true
 
-oh-my-posh init pwsh --config "$localModulesDir/omp-themes/default.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "~/default.omp.json" | Invoke-Expression
