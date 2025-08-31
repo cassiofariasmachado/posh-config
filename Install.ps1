@@ -1,43 +1,38 @@
 <#
 .SYNOPSIS
-    Utility script for installing the packages I use daily.
+    Utility script for installing Powershell configuration and related stuff.
 
 .DESCRIPTION
-    Utility script for installing the packages I use daily.
+    Utility script for installing Powershell configuration and related stuff.
 
 .PARAMETER SkipInstallPackages
-If specified, skips package installation and only copies the PowerShell configurations.
+If specified, skips packages installation.
+
+.PARAMETER SkipInstallModules
+If specified, skips module installation.
 
 .EXAMPLE
     .\Install.ps1
-    .\Install.ps1 -SkipInstallPackages
+    .\Install.ps1 -SkipInstallPackages -SkipInstallModules
 #>
 param (
     [switch]$SkipInstallPackages = $false
 )
+param (
+    [switch]$SkipInstallModules = $false
+)
 
 if (-not $SkipInstallPackages) {
-    $wingetPackages = @(
-        ("Microsoft.WindowsTerminal", "winget"),
-        ("JanDeDobbeleer.OhMyPosh", "winget"),
-        ("bat", "winget"),
-        ("dandavison.delta", "winget"),
-        ("Microsoft.PowerToys", "winget"),
-        ("GnuPG.Gpg4win", "winget"),
-        ("Microsoft.VisualStudioCode", "winget"),
-        ("Docker.DockerDesktop", "winget"),
-        ("Microsoft.DotNet.SDK.9", "winget"),
-        ("Microsoft.DotNet.DesktopRuntime.9", "winget"),
-        ("Microsoft.DotNet.AspNetCore.9", "winget"),
-        ("JetBrains.Toolbox", "winget"),
-        ("7zip.7zip", "winget"),
-        ("Neovim.Neovim", "winget")
-    )
+     Write-Host "🚀 installing packages"
 
-    foreach ($package in $wingetPackages) {
-        Write-Host "✅ installing ""$($package[0])"" from source ""$($package[1])"""
-        winget install --id $package[0] --source $package[1] --accept-package-agreements 
-    }
+    ./InstallPackages.ps1
+}
+else {
+    Write-Host "⏭️ skipping packages installation due to --SkipInstallPackages parameter"
+}
+
+if (-not $SkipInstallModules) {
+    Write-Host "🚀 installing PowerShell modules"
 
     $modules = (
         "posh-git",
@@ -59,8 +54,14 @@ if (-not $SkipInstallPackages) {
     Install-TabCompletion
 }
 else {
-    Write-Host "⏭️ skipping package and module installation due to --SkipInstallPackages parameter"
+    Write-Host "⏭️ skipping modules installation due to --SkipInstallModules parameter"
 }
+
+Write-Host "🚀 downloading up Oh My Posh theme"
+$ompThemeUrl = "https://raw.githubusercontent.com/cassiofariasmachado/omp-themes/main/default.omp.json"
+$ompThemePath = Join-Path $HOME "default.omp.json"
+
+Invoke-WebRequest -Uri $ompThemeUrl -OutFile $ompThemePath -UseBasicParsing
 
 Write-Host "🚀 copying configurations to PowerShell folder"
 Copy-Item -Force -Recurse * $env:UserProfile\Documents\PowerShell

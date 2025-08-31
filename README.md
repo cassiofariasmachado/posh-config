@@ -2,7 +2,15 @@
 
 This repository contains the configuration I usually use in PowerShell.
 
-## Prerequisites
+## Installation
+
+### Option 1: Using dotfiles (recommended) 
+
+* Configured using dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
+
+### Option 2: Install directly
+
+#### Prerequisites
 
 Before installation, install the prerequisites:
 
@@ -17,8 +25,6 @@ Before installation, install the prerequisites:
     ```powershell
     winget install --id Microsoft.PowerShell
     ```
-
-## Installation
 
 To install:
 
@@ -38,8 +44,6 @@ To install:
     ```powershell
     ./Install.ps1
     ```
-
-4. Configure dotfiles as explained [here](https://github.com/cassiofariasmachado/dotfiles).
 
 ## References
 
