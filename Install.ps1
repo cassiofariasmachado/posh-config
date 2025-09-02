@@ -44,24 +44,7 @@ else {
 if (-not $SkipInstallModules) {
     Write-Host "🚀 installing PowerShell modules"
 
-    $modules = (
-        "posh-git",
-        "posh-cli",
-        "posh-dotnet",
-        "DockerCompletion",
-        "PSKubectlCompletion"
-    )
-
-    Write-Host "🔐 trusting PSGallery repository"
-    Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-
-    foreach ($module in $modules) {
-        Write-Host "✅ installing module ""$module"""
-        Install-Module $module -Scope CurrentUser -AcceptLicense
-    }
-
-    Write-Host "⚙️ installing tab completion modules"
-    Install-TabCompletion
+    ./Scripts/InstallModules.ps1
 }
 else {
     Write-Host "⏭️ skipping modules installation due to -SkipInstallModules parameter"
@@ -69,6 +52,7 @@ else {
 
 if (-not $SkipInstallOmpTheme) {
     Write-Host "🚀 downloading up Oh My Posh theme"
+
     $ompThemeUrl = "https://raw.githubusercontent.com/cassiofariasmachado/omp-themes/main/default.omp.json"
     $ompThemePath = Join-Path $HOME "default.omp.json"
 
@@ -79,7 +63,9 @@ else {
 }
 
 if (-not $SkipPowershellFolderSetup) {
-    ./SetupPowershellFolder.ps1
+    Write-Host "🚀 setting up PowerShell folder"
+
+    ./Scripts/SetupPowershellFolder.ps1
 }
 else {
     Write-Host "⏭️ skipping PowerShell foler set up due to -SkipPowershellFolderSetup parameter"
