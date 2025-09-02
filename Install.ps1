@@ -11,15 +11,25 @@ If specified, skips packages installation.
 .PARAMETER SkipInstallModules
 If specified, skips module installation.
 
+.PARAMETER SkipInstallOmpTheme
+If specified, skips Oh My Posh theme installation.
+
+.PARAMETER SkipPowershellFolderSetup
+If specified, skips Powershell folder setup.
+
+.PARAMETER SkipInstallPoshFiles
+If specified, skips copying configuration files to Powershell folder.
+
 .EXAMPLE
     .\Install.ps1
-    .\Install.ps1 -SkipInstallPackages -SkipInstallModules
+    .\Install.ps1 -SkipInstallPackages -SkipInstallModules -SkipInstallOmpTheme -SkipPowershellFolderSetup -SkipInstallPoshFiles
 #>
 param (
-    [switch]$SkipInstallPackages = $false
-)
-param (
-    [switch]$SkipInstallModules = $false
+    [switch]$SkipInstallPackages = $false,
+    [switch]$SkipInstallModules = $false,
+    [switch]$SkipInstallOmpTheme = $false,
+    [switch]$SkipPowershellFolderSetup = $false,
+    [switch]$SkipInstallPoshFiles = $false
 )
 
 if (-not $SkipInstallPackages) {
@@ -28,7 +38,7 @@ if (-not $SkipInstallPackages) {
     ./InstallPackages.ps1
 }
 else {
-    Write-Host "⏭️ skipping packages installation due to --SkipInstallPackages parameter"
+    Write-Host "⏭️ skipping packages installation due to -SkipInstallPackages parameter"
 }
 
 if (-not $SkipInstallModules) {
@@ -54,14 +64,31 @@ if (-not $SkipInstallModules) {
     Install-TabCompletion
 }
 else {
-    Write-Host "⏭️ skipping modules installation due to --SkipInstallModules parameter"
+    Write-Host "⏭️ skipping modules installation due to -SkipInstallModules parameter"
 }
 
-Write-Host "🚀 downloading up Oh My Posh theme"
-$ompThemeUrl = "https://raw.githubusercontent.com/cassiofariasmachado/omp-themes/main/default.omp.json"
-$ompThemePath = Join-Path $HOME "default.omp.json"
+if (-not $SkipInstallOmpTheme) {
+    Write-Host "🚀 downloading up Oh My Posh theme"
+    $ompThemeUrl = "https://raw.githubusercontent.com/cassiofariasmachado/omp-themes/main/default.omp.json"
+    $ompThemePath = Join-Path $HOME "default.omp.json"
 
-Invoke-WebRequest -Uri $ompThemeUrl -OutFile $ompThemePath -UseBasicParsing
+    Invoke-WebRequest -Uri $ompThemeUrl -OutFile $ompThemePath -UseBasicParsing
+}
+else {
+    Write-Host "⏭️ skipping Oh My Posh theme installation due to -SkipInstallOmpTheme parameter"
+}
 
-Write-Host "🚀 copying configurations to PowerShell folder"
-Copy-Item -Force -Recurse * $env:UserProfile\Documents\PowerShell
+if (-not $SkipPowershellFolderSetup) {
+    ./SetupPowershellFolder.ps1
+}
+else {
+    Write-Host "⏭️ skipping PowerShell foler set up due to -SkipPowershellFolderSetup parameter"
+}
+
+if (-not $SkipInstallPoshFiles) { 
+    Write-Host "🚀 copying configurations to PowerShell folder"
+    Copy-Item -Force -Recurse * "$env:UserProfile\.config\PowerShell"
+}
+else {
+    Write-Host "⏭️ skipping PowerShell files installation due to -SkipInstallPoshFiles parameter"
+}
