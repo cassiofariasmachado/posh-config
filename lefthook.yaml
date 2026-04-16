@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    ps-script-analyzer:
+      glob: "*.ps1"
+      run: pwsh -File Scripts/Lint.ps1 {staged_files}

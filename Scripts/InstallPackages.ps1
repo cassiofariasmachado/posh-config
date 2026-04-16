@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Utility script for installing Windows packages that I usually use.
 
@@ -27,6 +27,6 @@ $wingetPackages = @(
 )
 
 foreach ($package in $wingetPackages) {
-    Write-Host "✅ installing ""$($package[0])"" from source ""$($package[1])"""
-    winget install --id $package[0] --source $package[1] --accept-package-agreements 
+    Write-Output "✅ installing ""$($package[0])"" from source ""$($package[1])"""
+    winget install --id $package[0] --source $package[1] --accept-package-agreements
 }

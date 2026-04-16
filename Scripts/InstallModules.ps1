@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Utility script for installing Powershell Modules that I usually use.
 
@@ -14,16 +14,17 @@ $modules = (
     "posh-cli",
     "posh-dotnet",
     "DockerCompletion",
-    "PSKubectlCompletion"
+    "PSKubectlCompletion",
+    "PSScriptAnalyzer"
 )
 
-Write-Host "🔐 trusting PSGallery repository"
+Write-Output "🔐 trusting PSGallery repository"
 Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
 
 foreach ($module in $modules) {
-    Write-Host "✅ installing module ""$module"""
+    Write-Output "✅ installing module ""$module"""
     Install-Module $module -Scope CurrentUser -AcceptLicense
 }
 
-Write-Host "⚙️ installing tab completion modules"
+Write-Output "⚙️ installing tab completion modules"
 Install-TabCompletion

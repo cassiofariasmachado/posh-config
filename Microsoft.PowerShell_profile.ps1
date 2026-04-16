@@ -29,6 +29,7 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 # +-------------+
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
+    $null = $commandName
     dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
         [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
     }
@@ -36,4 +37,4 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 
 $env:POSH_GIT_ENABLED = $true
 
-oh-my-posh init pwsh --config "~/default.omp.json" | Invoke-Expression
+& ([scriptblock]::Create((oh-my-posh init pwsh --config "~/default.omp.json")))

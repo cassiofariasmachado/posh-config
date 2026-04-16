@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Releases and renews the IPv4 address of the network interface.
 
@@ -9,11 +9,16 @@ The Restart-Network function releases the current IPv4 address and requests a ne
 Restart-Network
 #>
 function Restart-Network {
-    Write-Host "⛓️‍💥 releasing IPv4 address"
-    ipconfig /release | Out-Null
+    [CmdletBinding(SupportsShouldProcess)]
+    param()
 
-    Write-Host "🌍 renewing IPv4 address"
-    ipconfig /renew | Out-Null
+    if ($PSCmdlet.ShouldProcess('network adapter', 'restart IPv4')) {
+        Write-Output "⛓️‍💥 releasing IPv4 address"
+        ipconfig /release | Out-Null
+
+        Write-Output "🌍 renewing IPv4 address"
+        ipconfig /renew | Out-Null
+    }
 }
 
 <#
@@ -27,11 +32,16 @@ The Restart-Network6 function releases the current IPv6 address and requests a n
 Restart-Network6
 #>
 function Restart-Network6 {
-    Write-Host "⛓️‍💥 releasing IPv6 address"
-    ipconfig /release6 | Out-Null
+    [CmdletBinding(SupportsShouldProcess)]
+    param()
 
-    Write-Host "🌍 renewing IPv6 address"
-    ipconfig /renew6 | Out-Null
+    if ($PSCmdlet.ShouldProcess('network adapter', 'restart IPv6')) {
+        Write-Output "⛓️‍💥 releasing IPv6 address"
+        ipconfig /release6 | Out-Null
+
+        Write-Output "🌍 renewing IPv6 address"
+        ipconfig /renew6 | Out-Null
+    }
 }
 
 <#
@@ -46,7 +56,7 @@ in hexadecimal escape format (\uXXXX).
 The character to be converted to Unicode format.
 
 .EXAMPLE
-Get-UnicodeEscape -Character ''
+Get-UnicodeEscape -Character ''
 #>
 function Get-UnicodeEscape {
     param (
@@ -71,6 +81,7 @@ The string to be converted to Unicode codes.
 Get-UnicodeEscapes -Text '🚀PowerShell'
 #>
 function Get-UnicodeEscapes {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '')]
     param (
         [Parameter(Mandatory = $true)]
         [string]$Text
@@ -90,10 +101,16 @@ updating all available packages on the system.
 It automatically accepts the terms of the packages and sources, including updating unknown packages.
 
 .EXAMPLE
-Update-WingetPackages
+Update-WingetPackage
 #>
 function Update-WingetPackages {
-    winget upgrade --all --accept-package-agreements --accept-source-agreements --include-unknown
+    [CmdletBinding(SupportsShouldProcess)]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '')]
+    param()
+
+    if ($PSCmdlet.ShouldProcess('all packages', 'winget upgrade')) {
+        winget upgrade --all --accept-package-agreements --accept-source-agreements --include-unknown
+    }
 }
 
 <#
@@ -112,17 +129,15 @@ You can use the `-WhatIf` parameter to simulate the cleanup without deleting any
 .PARAMETER RootPath
 The root path where the search and cleanup should start. Default is the current directory (`.`).
 
-.PARAMETER WhatIf
-Simulates the removal of folders without actually deleting them. Useful to check what would be removed.
-
 .EXAMPLE
 Clear-BuildAssets -RootPath "."
 Clear-BuildAssets -RootPath "." -WhatIf
 #>
 function Clear-BuildAssets {
+    [CmdletBinding(SupportsShouldProcess)]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '')]
     param (
-        [string]$RootPath = ".",
-        [switch]$WhatIf
+        [string]$RootPath = "."
     )
 
     $targetFolders = @("node_modules", "bin", "obj")
@@ -153,13 +168,9 @@ function Clear-BuildAssets {
                 }
             }
 
-            if ($shouldDelete) {
-                if ($WhatIf) {
-                    Write-Host "⏳ would delete: $($_.FullName)"
-                } else {
-                    Write-Host "🔥 deleting: $($_.FullName)"
-                    Remove-Item -Path $_.FullName -Recurse -Force
-                }
+            if ($shouldDelete -and $PSCmdlet.ShouldProcess($_.FullName, 'Remove-Item')) {
+                Write-Output "🔥 deleting: $($_.FullName)"
+                Remove-Item -Path $_.FullName -Recurse -Force
             }
         }
 }
