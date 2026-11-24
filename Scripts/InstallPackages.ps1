@@ -10,6 +10,7 @@
 #>
 
 $wingetPackages = @(
+    ("Git.Git", "winget"),
     ("Microsoft.WindowsTerminal", "winget"),
     ("JanDeDobbeleer.OhMyPosh", "winget"),
     ("bat", "winget"),
@@ -23,7 +24,9 @@ $wingetPackages = @(
     ("Microsoft.DotNet.AspNetCore.9", "winget"),
     ("JetBrains.Toolbox", "winget"),
     ("7zip.7zip", "winget"),
-    ("Neovim.Neovim", "winget")
+    ("Neovim.Neovim", "winget"),
+    ("Anthropic.Claude", "winget"),
+    ("Anthropic.ClaudeCode", "winget")
 )
 
 foreach ($package in $wingetPackages) {

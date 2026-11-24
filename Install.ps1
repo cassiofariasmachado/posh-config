@@ -35,7 +35,7 @@ param (
 if (-not $SkipInstallPackages) {
      Write-Output "🚀 installing packages"
 
-    ./InstallPackages.ps1
+    ./Scripts/InstallPackages.ps1
 }
 else {
     Write-Output "⏭️ skipping packages installation due to -SkipInstallPackages parameter"
